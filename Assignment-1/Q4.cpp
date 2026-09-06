@@ -1,184 +1,195 @@
-/* Develop a menu driven program to demonstrate the following operations of Arrays
-    -----MENU-----
-    1. CREATE
-    2. DISPLAY
-    3. INSERT
-    4. DELETE
-    5. LINEAR SEARCH
-    6. EXIT 
-*/
 #include <iostream>
 using namespace std;
 
 int main()
 {
-    int arr[100];
-    int n = 0;
     int choice;
 
-    do
+    cout << "1. Reverse an Array\n";
+    cout << "2. Matrix Multiplication\n";
+    cout << "3. Matrix Transpose\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    // 1. Reverse an array
+
+    if (choice == 1)
     {
-        cout << "\n---- MENU ----\n";
-        cout << "1. CREATE"<<endl;
-        cout << "2. DISPLAY"<<endl;
-        cout << "3. INSERT"<<endl;
-        cout << "4. DELETE"<<endl;
-        cout << "5. LINEAR SEARCH"<<endl;
-        cout << "6. EXIT"<<endl;
-        cout << "Enter your choice: ";
-        cin >> choice;
+        int arr[20];
+        int n;
 
-        switch (choice)
+        cout << "\nEnter array elements: ";
+        cin >> n;
+
+        if (n < 1 || n > 100)
         {
-        case 1:                                          //ARRAY CREATION
-            cout << "\nEnter number of elements: ";
-            cin >> n;
-
-            if (n < 1 || n > 100)
-            {
-                cout << "Invalid size\n";
-                n = 0;
-                break;
-            }
-
-            cout << "Enter "<< n << " elements:\n";
-
-            for (int i = 0; i < n; i++)
-            {
-                cin >> arr[i];
-            }
-
-            cout << "Array created\n";
-            break;
-
-        case 2:                                        //DISPLAY ARRAY
-            if (n == 0)
-            {
-                cout << "Array is empty.\n";
-            }
-            else
-            {
-                cout << "Array elements: ";
-
-                for (int i = 0; i < n; i++)
-                {
-                    cout << arr[i] << " ";
-                }
-
-                cout << endl;
-            }
-            break;
-
-        case 3:                                      //INSERTION OF ELEMENTS IN ARRAY
-        {
-            int value, position;
-
-            if (n == 100)
-            {
-                cout << "Array is full\n";
-                break;
-            }
-
-            cout << "\nEnter value to insert: ";
-            cin >> value;
-
-            cout << "Enter position (1 to " << n + 1 << "): ";
-            cin >> position;
-
-            if (position < 1 || position > n + 1)
-            {
-                cout << "Invalid position.\n";
-            }
-            else
-            {
-                for (int i = n; i >= position; i--)
-                {
-                    arr[i] = arr[i - 1];
-                }
-
-                arr[position - 1] = value;
-                n++;
-
-                cout << "Element inserted \n";
-            }
-
-            break;
+            cout << "Invalid size.\n";
+            return 0;
         }
 
-        case 4:                                         //DELETION OF ELEMENTS IN ARRAY
+        cout << "Enter " << n << " elements:\n";
+
+        for (int i = 0; i < n; i++)
         {
-            int position;
-
-            if (n == 0)
-            {
-                cout << "Array is empty\n";
-                break;
-            }
-
-            cout << "\nEnter position to delete (1 to " << n << "): ";
-            cin >> position;
-
-            if (position < 1 || position > n)
-            {
-                cout << "Invalid position.\n";
-            }
-            else
-            {
-
-                for (int i = position - 1; i < n - 1; i++)
-                {
-                    arr[i] = arr[i + 1];
-                }
-
-                n--;
-
-                cout << "Element deleted\n";
-            }
-
-            break;
+            cin >> arr[i];
         }
 
-        case 5:                                         //LINEAR SEARCH
+        int start = 0;
+        int end = n - 1;
+
+        // Reverse the array using two pointers
+        while (start < end)
         {
-            int value;
-            bool found = false;
+            swap(arr[start], arr[end]);
 
-            if (n == 0)
+            start++;
+            end--;
+        }
+
+        cout << "\nReversed array: ";
+
+        for (int i = 0; i < n; i++)
+        {
+            cout << arr[i] << " ";
+        }
+
+        cout << endl;
+    }
+
+    // Matrix Multiplication
+
+    else if (choice == 2)
+    {
+        int A[4][4], B[4][4], result[4][4];
+        int r1, c1, r2, c2;
+
+        cout << "\nEnter rows and columns of first matrix: ";
+        cin >> r1 >> c1;
+
+        cout << "Enter rows and columns of second matrix: ";
+        cin >> r2 >> c2;
+
+        // Validate matrix dimensions
+        if (r1 < 1 || r1 > 10 || c1 < 1 || c1 > 10 ||
+            r2 < 1 || r2 > 10 || c2 < 1 || c2 > 10)
+        {
+            cout << "\nInvalid matrix dimensions.\n";
+            return 0;
+        }
+
+    
+        if (c1 != r2)
+        {
+            cout << "\nMatrix multiplication is not possible.\n";
+            return 0;
+        }
+
+        cout << "\nEnter elements of first matrix:\n";
+
+        for (int i = 0; i < r1; i++)
+        {
+            for (int j = 0; j < c1; j++)
             {
-                cout << "Array is empty\n";
-                break;
+                cin >> A[i][j];
             }
+        }
 
-            cout << "\nEnter element to search: ";
-            cin >> value;
+        cout << "\nEnter elements of second matrix:\n";
 
-            for (int i = 0; i < n; i++)
+        for (int i = 0; i < r2; i++)
+        {
+            for (int j = 0; j < c2; j++)
             {
-                if (arr[i] == value)
+                cin >> B[i][j];
+            }
+        }
+        for (int i = 0; i < r1; i++)
+        {
+            for (int j = 0; j < c2; j++)
+            {
+                result[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < r1; i++)
+        {
+            for (int j = 0; j < c2; j++)
+            {
+                for (int k = 0; k < c1; k++)
                 {
-                    cout << "Element found at position " << i + 1 << ".\n";
-                    found = true;
-                    break;
+                    result[i][j] += A[i][k] * B[k][j];
                 }
             }
+        }
 
-            if (!found)
+        cout << "\nResult of matrix multiplication:\n";
+
+        for (int i = 0; i < r1; i++)
+        {
+            for (int j = 0; j < c2; j++)
             {
-                cout << "Element not found.\n";
+                cout << result[i][j] << " ";
             }
 
-            break;
+            cout << endl;
+        }
+    }
+
+    //Transpose of matrix
+
+    else if (choice == 3)
+    {
+        int matrix[10][10], transpose[10][10];
+        int rows, columns;
+
+        cout << "\nEnter number of rows: ";
+        cin >> rows;
+
+        cout << "Enter number of columns: ";
+        cin >> columns;
+
+        if (rows < 1 || rows > 10 || columns < 1 || columns > 10)
+        {
+            cout << "\nInvalid matrix dimensions.\n";
+            return 0;
         }
 
-        case 6:                                              //EXIT
-            cout << "\nExiting program...\n";
-            break;
+        cout << "Enter matrix elements:\n";
 
-        default:
-            cout << "\nInvalid choice\n";
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                cin >> matrix[i][j];
+            }
         }
 
-    } while (choice != 6);
+        // Find transpose
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                transpose[j][i] = matrix[i][j];
+            }
+        }
+
+        cout << "\nTranspose of matrix:\n";
+
+        for (int i = 0; i < columns; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                cout << transpose[i][j] << " ";
+            }
+
+            cout << endl;
+        }
+    }
+
+    else
+    {
+        cout << "\nInvalid choice. Please choose 1, 2, or 3.\n";
+    }
 
     return 0;
-}        
+}
